@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify
 from youtube_transcript_api import YouTubeTranscriptApi
 from flask_cors import CORS
+import os  # <-- needed to get the PORT from environment
 
 app = Flask(__name__)
 CORS(app)
@@ -22,4 +23,6 @@ def transcript():
         return jsonify({'error': str(e)}), 500
 
 if __name__ == '__main__':
-    app.run()
+    # Use Render's dynamic port and bind to 0.0.0.0
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port)
